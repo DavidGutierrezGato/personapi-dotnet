@@ -1,10 +1,12 @@
-﻿namespace personapi_dotnet.Interfaces
+﻿using personapi_dotnet.Models.Entities;
+
+namespace personapi_dotnet.Interfaces
 {
     public interface IRepository<T>
     {
-        public IEnumerable<T> GetAll();
+        public Task<IEnumerable<T>> GetAll();
 
-        public T Get(int id);
+        public Task<T> Get(int id);
 
         public void Post(T _object);
 
