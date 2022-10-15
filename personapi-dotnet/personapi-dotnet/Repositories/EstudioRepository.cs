@@ -1,18 +1,29 @@
-﻿using personapi_dotnet.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using personapi_dotnet.Interfaces;
 using personapi_dotnet.Models.Entities;
 
 namespace personapi_dotnet.Repositories
 {
     public class EstudioRepository : IRepository<Estudio>
     {
-        public Estudio Get(int id)
+        private readonly persona_dbContext _context;
+
+        public EstudioRepository(persona_dbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public IEnumerable<Estudio> GetAll()
+        public Task<Estudio> Get(int idProf)
         {
-            throw new NotImplementedException();
+            var response = _context.Estudios.Where(x => x.IdProf == idProf ).FirstOrDefault();
+            return Task.FromResult(response);
+        }
+
+        public Task<IEnumerable<Estudio>> GetAll()
+        {
+            IEnumerable<Estudio> response = _context.Estudios.ToList();
+            return Task.FromResult(response);
+
         }
 
         public void Post(Estudio _object)

@@ -3,45 +3,47 @@ using personapi_dotnet.Models.Entities;
 
 namespace personapi_dotnet.Repositories
 {
-    public class PersonaRepository : IRepository<Persona>
+    public class ProfesionRepository : IRepository<Profesion>
     {
+
         private readonly persona_dbContext _context;
 
-        public PersonaRepository(persona_dbContext context)
+        public ProfesionRepository(persona_dbContext context)
         {
             _context = context;
         }
 
-        public Task<Persona> Get(int id)
+
+        public Task<Profesion> Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Persona>> GetAll()
+        public Task<IEnumerable<Profesion>> GetAll()
         {
-            IEnumerable<Persona> response = _context.Personas.ToList();
+            IEnumerable<Profesion> response = _context.Profesions.ToList();
             return Task.FromResult(response);
 
         }
 
-        public void Post(Persona _object)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(Persona _object)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Persona _object)
+        public void Post(Profesion _object)
         {
             throw new NotImplementedException();
         }
 
         public Task<string> pruebaRepository()
         {
-            return Task.FromResult("Si funciona personaRepository");
+            throw new NotImplementedException();
+        }
+
+        public void Remove(Profesion _object)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Profesion _object)
+        {
+            throw new NotImplementedException();
         }
     }
 }

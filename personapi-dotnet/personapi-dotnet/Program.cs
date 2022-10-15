@@ -15,7 +15,8 @@ builder.Services.AddDbContext<persona_dbContext>(options =>
 
 builder.Services.AddScoped<IRepository<Persona>,PersonaRepository>();
 builder.Services.AddScoped<IRepository<Estudio>, EstudioRepository>();
-
+builder.Services.AddScoped<IRepository<Telefono>, TelefonoRepository>();
+builder.Services.AddScoped<IRepository<Profesion>, ProfesionRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
