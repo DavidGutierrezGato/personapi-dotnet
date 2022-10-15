@@ -13,10 +13,10 @@ builder.Services.AddDbContext<persona_dbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddScoped<IRepository<Persona>,PersonaRepository>();
-builder.Services.AddScoped<IRepository<Estudio>, EstudioRepository>();
-builder.Services.AddScoped<IRepository<Telefono>, TelefonoRepository>();
-builder.Services.AddScoped<IRepository<Profesion>, ProfesionRepository>();
+builder.Services.AddScoped<IPersonaRepository,PersonaRepository>();
+builder.Services.AddScoped<IEstudioRepository, EstudioRepository>();
+builder.Services.AddScoped<ITelefonoRepository, TelefonoRepository>();
+builder.Services.AddScoped<IProfesionRepository, ProfesionRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

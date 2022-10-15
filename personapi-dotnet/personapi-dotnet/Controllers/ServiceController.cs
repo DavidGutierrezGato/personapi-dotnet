@@ -11,15 +11,15 @@ namespace personapi_dotnet.Controllers
     
     public class ServiceController : ControllerBase
     {
-        private readonly IRepository<Persona> _personaRepository;
-        private readonly IRepository<Estudio> _estudioRepository;
-        private readonly IRepository<Telefono> _telefonoRepository;
-        private readonly IRepository<Profesion> _profesionRepository;
+        private readonly IPersonaRepository _personaRepository;
+        private readonly IEstudioRepository _estudioRepository;
+        private readonly ITelefonoRepository _telefonoRepository;
+        private readonly IProfesionRepository _profesionRepository;
 
-        public ServiceController(IRepository<Persona> personaRepository,
-            IRepository<Estudio> estudioRepository,
-            IRepository<Telefono> telefonoRepository,
-            IRepository<Profesion> profesionRepository)
+        public ServiceController(IPersonaRepository personaRepository,
+            IEstudioRepository estudioRepository,
+            ITelefonoRepository telefonoRepository,
+            IProfesionRepository profesionRepository)
         {
             _personaRepository = personaRepository;
             _estudioRepository = estudioRepository;
@@ -34,14 +34,70 @@ namespace personapi_dotnet.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<string>> getAllTelefonos()
-        {
-            var response = await _telefonoRepository.GetAll();
+        //-------CRUD TELEFONO -----------------------------------------------------
 
-            return Ok(response);
+        [HttpGet("GetTelefonos")]
+        public async Task<ActionResult<IEnumerable<Telefono>>> getAllTelefonos()
+        {
+            try
+            {
+                var response = await _telefonoRepository.GetAll();
+                return Ok(response);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
+        [HttpGet("GetTelefono/{id}")]
+        public async Task<ActionResult<Telefono>> getTelefono(int id)
+        {
+            try
+            {
+                var response = await _telefonoRepository.Get(id);
+                return Ok(response);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost("PostTelefono/")]
+        public async Task<ActionResult<string>> PostTelefono(Telefono telefono)
+        {
+            
+            var response = await _telefonoRepository.Post(telefono);
+            if (response.Equals("Guardado"))
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest();
+            }
+                
+            
+        }
+
+        //------CRUD Persona ---------------------------------------------------
+        [HttpPost("PostPersona/")]
+        public async Task<ActionResult<string>> PostPersona(Persona persona)
+        {
+
+            var response = await _personaRepository.Post(persona);
+            if (response.Equals("Guardado"))
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+
+        }
 
     }
 }

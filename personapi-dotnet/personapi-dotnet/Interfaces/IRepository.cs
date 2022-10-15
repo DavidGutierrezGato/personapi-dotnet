@@ -8,11 +8,11 @@ namespace personapi_dotnet.Interfaces
 
         public Task<T> Get(int id);
 
-        public void Post(T _object);
+        public Task<string> Post(T _object);
 
-        public void Remove(T _object);
+        public Task<string> Remove(T _object);
 
-        public void Update(T _object);
+        public Task<string> Update(T _object);
 
         public Task<string> pruebaRepository();
     }
