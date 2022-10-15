@@ -1,9 +1,10 @@
-﻿using personapi_dotnet.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using personapi_dotnet.Interfaces;
 using personapi_dotnet.Models.Entities;
 
 namespace personapi_dotnet.Repositories
 {
-    public class ProfesionRepository : IRepository<Profesion>
+    public class ProfesionRepository : IProfesionRepository
     {
 
         private readonly persona_dbContext _context;
@@ -16,7 +17,8 @@ namespace personapi_dotnet.Repositories
 
         public Task<Profesion> Get(int id)
         {
-            throw new NotImplementedException();
+            var response = _context.Profesions.FirstOrDefault(x => x.Id == id);
+            return Task.FromResult(response);
         }
 
         public Task<IEnumerable<Profesion>> GetAll()
@@ -26,9 +28,18 @@ namespace personapi_dotnet.Repositories
 
         }
 
-        public void Post(Profesion _object)
+        public Task<string> Post(Profesion _object)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Profesions.Add(_object);
+                _context.SaveChanges();
+                return Task.FromResult("Guardado");
+            }
+            catch
+            {
+                return Task.FromResult("Error");
+            }
         }
 
         public Task<string> pruebaRepository()
@@ -36,14 +47,32 @@ namespace personapi_dotnet.Repositories
             throw new NotImplementedException();
         }
 
-        public void Remove(Profesion _object)
+        public Task<string> Remove(Profesion _object)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Profesions.Remove(_object);
+                _context.SaveChanges();
+                return Task.FromResult("Removido");
+            }
+            catch
+            {
+                return Task.FromResult("Error");
+            }
         }
 
-        public void Update(Profesion _object)
+        public Task<string> Update(Profesion _object)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Entry(_object).State = EntityState.Modified;
+                _context.SaveChanges();
+                return Task.FromResult("Actualizado");
+            }
+            catch
+            {
+                return Task.FromResult("Error");
+            }
         }
     }
 }

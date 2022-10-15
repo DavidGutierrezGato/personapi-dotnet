@@ -7,6 +7,7 @@ namespace personapi_dotnet.Models.Entities
     {
         public Persona()
         {
+            Estudios = new HashSet<Estudio>();
             Telefonos = new HashSet<Telefono>();
         }
 
@@ -16,6 +17,7 @@ namespace personapi_dotnet.Models.Entities
         public string Genero { get; set; } = null!;
         public int? Edad { get; set; }
 
+        public virtual ICollection<Estudio> Estudios { get; set; }
         public virtual ICollection<Telefono> Telefonos { get; set; }
     }
 }

@@ -47,6 +47,12 @@ namespace personapi_dotnet.Models.Entities
                     .IsUnicode(false)
                     .HasColumnName("univer");
 
+                entity.HasOne(d => d.CcPerNavigation)
+                    .WithMany(p => p.Estudios)
+                    .HasForeignKey(d => d.CcPer)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_estudios_persona1");
+
                 entity.HasOne(d => d.IdProfNavigation)
                     .WithMany(p => p.Estudios)
                     .HasForeignKey(d => d.IdProf)

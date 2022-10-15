@@ -1,9 +1,10 @@
-﻿using personapi_dotnet.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using personapi_dotnet.Interfaces;
 using personapi_dotnet.Models.Entities;
 
 namespace personapi_dotnet.Repositories
 {
-    public class TelefonoRepository : IRepository<Telefono>
+    public class TelefonoRepository : ITelefonoRepository
     {
 
 
@@ -26,9 +27,20 @@ namespace personapi_dotnet.Repositories
             return Task.FromResult(response);
         }
 
-        public void Post(Telefono _object)
+        public Task<string> Post(Telefono _object)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Telefonos.Add(_object);
+                _context.SaveChanges();
+                return Task.FromResult("Guardado");
+            }
+            catch
+            {
+                return Task.FromResult("Error");
+            }
+           
+            
         }
 
         public Task<string> pruebaRepository()
@@ -36,14 +48,32 @@ namespace personapi_dotnet.Repositories
             throw new NotImplementedException();
         }
 
-        public void Remove(Telefono _object)
+        public Task<string> Remove(Telefono _object)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Telefonos.Remove(_object);
+                _context.SaveChanges();
+                return Task.FromResult("Removido");
+            }
+            catch
+            {
+                return Task.FromResult("Error");
+            }
         }
 
-        public void Update(Telefono _object)
+        public Task<string> Update(Telefono _object)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Entry(_object).State = EntityState.Modified;
+                _context.SaveChanges();
+                return Task.FromResult("Actualizado");
+            }
+            catch
+            {
+                return Task.FromResult("Error");
+            }
         }
     }
 }
