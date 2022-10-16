@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using personapi_dotnet.Interfaces;
 using personapi_dotnet.Models.DTOs;
@@ -26,20 +26,11 @@ namespace personapi_dotnet.Controllers
             _estudioRepository = estudioRepository;
             _telefonoRepository = telefonoRepository;
             _profesionRepository = profesionRepository;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<string>> prueba()
-        {
-            string response = await _estudioRepository.pruebaRepository();
-
-            return Ok(response);
-        }
 
         //-------CRUD TELEFONO -----------------------------------------------------
 
         [HttpGet("GetTelefonos")]
-        public async Task<ActionResult<IEnumerable<Telefono>>> getAllTelefonos()
+        public async Task<ActionResult<IEnumerable<Telefono>>> GetAllTelefonos()
         {
             try
             {
@@ -53,7 +44,7 @@ namespace personapi_dotnet.Controllers
         }
 
         [HttpGet("GetTelefono/{id}")]
-        public async Task<ActionResult<Telefono>> getTelefono(int id)
+        public async Task<ActionResult<Telefono>> GetTelefono(int id)
         {
             try
             {
@@ -114,12 +105,43 @@ namespace personapi_dotnet.Controllers
 
         }
 
-        //------CRUD Persona ---------------------------------------------------
-        [HttpPost("PostPersona/")]
-        public async Task<ActionResult<string>> PostPersona(Persona persona)
+        //------CRUD PERSONA ---------------------------------------------------
+
+        [HttpGet("GetPersonas")]
+        public async Task<ActionResult<IEnumerable<Persona>>> GetAllPersonas()
+        {
+            try
+            {
+                var response = await _personaRepository.GetAll();
+                return Ok(response);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+
+        [HttpGet("GetPersona/{id}")]
+        public async Task<ActionResult<Persona>> GetPersona(int id)
+        {
+            try
+            {
+                var response = await _personaRepository.Get(id);
+                return Ok(response);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+
+        [HttpPost("PostPersona")]
+        public async Task<ActionResult<string>> PostPersona(PersonaDTO persona)
         {
 
-            var response = await _personaRepository.Post(persona);
+            var response = await _personaRepository.PostPersona(persona);
             if (response.Equals("Guardado"))
             {
                 return Ok(response);
@@ -128,7 +150,37 @@ namespace personapi_dotnet.Controllers
             {
                 return BadRequest();
             }
+        }
 
+        [HttpPut("PutPersona")]
+        public async Task<ActionResult<string>> PutPersona(PersonaDTO persona)
+        {
+
+            var response = await _personaRepository.UpdatePersona(persona);
+            if (response.Equals("Actualizado"))
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
+
+        [HttpDelete("DelPersona")]
+        public async Task<ActionResult<string>> DeletePersona(int cedula)
+        {
+
+            var response = await _personaRepository.RemovePersona(cedula);
+            if (response.Equals("Removido"))
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest();
+            }
 
         }
 
