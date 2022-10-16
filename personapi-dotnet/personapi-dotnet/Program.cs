@@ -30,11 +30,14 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
-if (app.Environment.IsDevelopment())
+
+app.UseSwagger();
+app.UseSwaggerUI(x =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    x.SwaggerEndpoint("/swagger/v1/swagger.json", "personapi_dotnet");
+    x.RoutePrefix = string.Empty;
+});
+
 app.UseStaticFiles();
 
 app.UseRouting();
