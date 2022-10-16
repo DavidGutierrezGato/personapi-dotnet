@@ -26,6 +26,7 @@ namespace personapi_dotnet.Controllers
             _estudioRepository = estudioRepository;
             _telefonoRepository = telefonoRepository;
             _profesionRepository = profesionRepository;
+        }
 
         //-------CRUD TELEFONO -----------------------------------------------------
 
