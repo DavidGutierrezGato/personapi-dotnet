@@ -18,7 +18,7 @@ namespace personapi_dotnet.Repositories
 
         public Task<Telefono> Get(int id)
         {
-            var response = _context.Telefonos.Where(x => x.Num == id.ToString()).FirstOrDefault();
+            var response = _context.Telefonos.Where(x => x.Num == id).FirstOrDefault();
             return Task.FromResult(response);
         }
 
@@ -69,7 +69,7 @@ namespace personapi_dotnet.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<string> RemoveTelefono(string numero)
+        public Task<string> RemoveTelefono(int numero)
         {
             try
             {

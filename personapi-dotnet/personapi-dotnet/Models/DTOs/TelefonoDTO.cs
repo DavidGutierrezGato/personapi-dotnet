@@ -2,7 +2,7 @@
 {
     public class TelefonoDTO
     {
-        public string Num { get; set; } = null!;
+        public int Num { get; set; }
         public string Oper { get; set; } = null!;
         public int Duenio { get; set; }
     }
