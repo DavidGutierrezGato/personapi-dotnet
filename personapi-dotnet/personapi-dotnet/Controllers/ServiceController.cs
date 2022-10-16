@@ -91,7 +91,7 @@ namespace personapi_dotnet.Controllers
         }
 
         [HttpDelete("DelTelefono")]
-        public async Task<ActionResult<string>> DeleteTelefono(string numero)
+        public async Task<ActionResult<string>> DeleteTelefono(int numero)
         {
 
             var response = await _telefonoRepository.RemoveTelefono(numero);
