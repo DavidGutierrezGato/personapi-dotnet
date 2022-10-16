@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using personapi_dotnet.Interfaces;
+using personapi_dotnet.Models.DTOs;
 using personapi_dotnet.Models.Entities;
 
 namespace personapi_dotnet.Repositories
@@ -15,8 +16,7 @@ namespace personapi_dotnet.Repositories
 
         public Task<Estudio> Get(int idProf)
         {
-            var response = _context.Estudios.Where(x => x.IdProf == idProf ).FirstOrDefault();
-            return Task.FromResult(response);
+            throw new NotImplementedException();
         }
 
         public Task<IEnumerable<Estudio>> GetAll()
@@ -28,44 +28,17 @@ namespace personapi_dotnet.Repositories
 
         public Task<string> Post(Estudio _object)
         {
-            try
-            {
-                _context.Estudios.Add(_object);
-                _context.SaveChanges();
-                return Task.FromResult("Guardado");
-            }
-            catch
-            {
-                return Task.FromResult("Error");
-            }
+            throw new NotImplementedException();
         }
 
         public Task<string> Remove(Estudio _object)
         {
-            try
-            {
-                _context.Estudios.Remove(_object);
-                _context.SaveChanges();
-                return Task.FromResult("Removido");
-            }
-            catch
-            {
-                return Task.FromResult("Error");
-            }
+            throw new NotImplementedException();
         }
 
         public Task<string> Update(Estudio _object)
         {
-            try
-            {
-                _context.Entry(_object).State = EntityState.Modified;
-                _context.SaveChanges();
-                return Task.FromResult("Actualizado");
-            }
-            catch
-            {
-                return Task.FromResult("Error");
-            }
+            throw new NotImplementedException();
         }
 
         public Task<string> pruebaRepository()
@@ -75,7 +48,95 @@ namespace personapi_dotnet.Repositories
 
         public Task<Estudio> getEstudios(int idProf, int idPer)
         {
-            var response = _context.Estudios.Where(x => x.IdProf == idProf && x.CcPer == idPer).FirstOrDefault();
+            throw new NotImplementedException();
+        }
+
+
+
+
+        public Task<string> PostEstudios(EstudiosDTO _object)
+        {
+            try
+            {
+                Estudio estudio = new Estudio();
+                estudio.IdProf = _object.IdProf;
+                estudio.CcPer = _object.CcPer;
+                estudio.Fecha = _object.Fecha;
+                estudio.Univer = _object.Univer;
+
+                var persona = _context.Personas.FirstOrDefault(x => x.Cc == estudio.CcPer);
+
+                var profesion = _context.Profesions.FirstOrDefault(x => x.Id == estudio.IdProf);
+
+                if (persona != null && profesion != null)
+                {
+                    estudio.CcPerNavigation = persona;
+                    estudio.IdProfNavigation = profesion;
+
+                    _context.Estudios.Add(estudio);
+                    _context.SaveChanges();
+                    return Task.FromResult("Guardado");
+                }
+                else
+                {
+                    return Task.FromResult("sin dueño");
+                }
+
+            }
+            catch
+            {
+                return Task.FromResult("Error");
+            }
+        }
+
+        public Task<string> RemoveEstudios(int idProf, int idCC)
+        {
+            try
+            {
+                var estudio = _context.Estudios.FirstOrDefault(x => x.CcPer == idCC && x.IdProf == idProf);
+                if (estudio != null)
+                {
+                    _context.Estudios.Remove(estudio);
+                    _context.SaveChanges();
+                    return Task.FromResult("Removido");
+                }
+
+                return Task.FromResult("Error");
+            }
+            catch
+            {
+                return Task.FromResult("Error");
+            }
+        }
+
+        public Task<string> UpdateEstudios(EstudiosDTO _object)
+        {
+            try
+            {
+                var estudio = _context.Estudios.FirstOrDefault(x => x.CcPer == _object.CcPer && x.IdProf == _object.IdProf);
+                if (estudio != null)
+                {
+                    estudio.IdProf = _object.IdProf;
+                    estudio.CcPer = _object.CcPer;
+                    estudio.Fecha = _object.Fecha;
+                    estudio.Univer = _object.Univer;
+
+                    _context.Entry(estudio).State = EntityState.Modified;
+                    _context.SaveChanges();
+                    return Task.FromResult("Actualizado");
+                }
+
+                return Task.FromResult("Error");
+            }
+            catch
+            {
+                return Task.FromResult("Error");
+            }
+        }
+
+        public Task<Estudio> GetEstudios2ID(int idProf, int idCC)
+        {
+            var response = _context.Estudios.Where(x => x.IdProf == idProf && x.CcPer == idCC).FirstOrDefault();
             return Task.FromResult(response);
         }
     }
