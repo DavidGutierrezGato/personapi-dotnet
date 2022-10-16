@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using personapi_dotnet.Interfaces;
+using personapi_dotnet.Models.DTOs;
 using personapi_dotnet.Models.Entities;
 using personapi_dotnet.Repositories;
 
@@ -64,11 +65,11 @@ namespace personapi_dotnet.Controllers
             }
         }
 
-        [HttpPost("PostTelefono/")]
-        public async Task<ActionResult<string>> PostTelefono(Telefono telefono)
+        [HttpPost("PostTelefono")]
+        public async Task<ActionResult<string>> PostTelefono(TelefonoDTO telefono)
         {
-            
-            var response = await _telefonoRepository.Post(telefono);
+
+            var response = await _telefonoRepository.PostTelefono(telefono);
             if (response.Equals("Guardado"))
             {
                 return Ok(response);
@@ -77,8 +78,39 @@ namespace personapi_dotnet.Controllers
             {
                 return BadRequest();
             }
-                
-            
+   
+        }
+
+        [HttpPut("PutTelefono")]
+        public async Task<ActionResult<string>> PutTelefono(TelefonoDTO telefono)
+        {
+
+            var response = await _telefonoRepository.UpdateTelefono(telefono);
+            if (response.Equals("Actualizado"))
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
+
+        [HttpDelete("DelTelefono")]
+        public async Task<ActionResult<string>> DeleteTelefono(string numero)
+        {
+
+            var response = await _telefonoRepository.RemoveTelefono(numero);
+            if (response.Equals("Removido"))
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest();
+            }
+
         }
 
         //------CRUD Persona ---------------------------------------------------
